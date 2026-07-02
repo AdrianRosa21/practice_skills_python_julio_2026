@@ -3,8 +3,6 @@
 ## ¿Qué es este sandbox?
 
 Este repositorio es un **terreno de juego controlado** para un taller práctico de Agent Skills.
-Está diseñado para estudiantes de 3.º año de ingeniería que practicarán cómo redactar prompts para agentes
-que analizan, transforman o documentan código existente.
 
 En este entorno:
 
