@@ -1,3 +1,4 @@
 __pycache__/
 *.pyc
-reto-1-commits/staged/
+reto-1-commits/staged/*
+!reto-1-commits/staged/.gitkeep

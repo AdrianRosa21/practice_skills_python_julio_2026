@@ -81,7 +81,7 @@ def generar_artefactos(spec_path: Path, dry_run: bool) -> list[Path]:
 
     if not dry_run and generados:
         rutas_relativas = [str(path.relative_to(repo_root)) for path in generados]
-        add = _ejecutar_git(["add", *rutas_relativas], repo_root)
+        add = _ejecutar_git(["add", "-f", *rutas_relativas], repo_root)
         if add.returncode != 0:
             raise RuntimeError(f"Fallo 'git add': {add.stderr.strip()}")
 
