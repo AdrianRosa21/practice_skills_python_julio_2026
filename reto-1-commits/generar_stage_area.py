@@ -1,16 +1,19 @@
-"""Generador spec-driven de artefactos staged para reto de commits.
+"""Generador spec-driven de archivos staged para reto de commits.
 
-Uso rapido:
+Uso:
     python3 reto-1-commits/generar_stage_area.py
+
+Genera archivos independientes (feat, fix, docs, refactor, chore) en staged/
+y los deja en el stage area con git add.
 """
 
 from __future__ import annotations
 
 import argparse
 import json
+import shutil
 import subprocess
 import sys
-from datetime import datetime, timezone
 from pathlib import Path
 
 
@@ -34,8 +37,7 @@ def _repo_root_desde_git(inicio: Path) -> Path:
 def _cargar_spec(path_spec: Path) -> dict:
     if not path_spec.exists():
         raise FileNotFoundError(f"Spec no encontrado: {path_spec}")
-    contenido = path_spec.read_text(encoding="utf-8")
-    data = json.loads(contenido)
+    data = json.loads(path_spec.read_text(encoding="utf-8"))
 
     if "output_dir" not in data or "artifacts" not in data:
         raise ValueError("El spec debe definir 'output_dir' y 'artifacts'.")
@@ -44,40 +46,13 @@ def _cargar_spec(path_spec: Path) -> dict:
     return data
 
 
-def _renderizar_markdown(artifact: dict, spec_version: str) -> str:
-    ahora = datetime.now(timezone.utc).isoformat()
-    checks = artifact.get("acceptance_checks", [])
-    touched_files = artifact.get("touched_files", [])
-
-    lineas = [
-        f"# {artifact['title']}",
-        "",
-        f"- Tipo de cambio: `{artifact['change_type']}`",
-        f"- Spec version: `{spec_version}`",
-        f"- Generado en UTC: `{ahora}`",
-        "",
-        "## Resumen",
-        artifact["summary"],
-        "",
-        "## Archivos afectados",
-    ]
-
-    for item in touched_files:
-        lineas.append(f"- `{item}`")
-
-    lineas.extend(["", "## Acceptance checks"])
-    for check in checks:
-        lineas.append(f"- [ ] {check}")
-
-    lineas.extend(
-        [
-            "",
-            "## Nota didactica",
-            "Este artefacto existe para entrenar una skill que separe cambios no relacionados en commits independientes.",
-            "",
-        ]
-    )
-    return "\n".join(lineas)
+def _limpiar_output(output_dir: Path) -> None:
+    if output_dir.exists():
+        for item in output_dir.iterdir():
+            if item.is_file():
+                item.unlink()
+            elif item.is_dir():
+                shutil.rmtree(item)
 
 
 def generar_artefactos(spec_path: Path, dry_run: bool) -> list[Path]:
@@ -85,20 +60,23 @@ def generar_artefactos(spec_path: Path, dry_run: bool) -> list[Path]:
     data = _cargar_spec(spec_path)
     output_dir = repo_root / data["output_dir"]
     output_dir.mkdir(parents=True, exist_ok=True)
+    _limpiar_output(output_dir)
 
-    spec_version = str(data.get("version", "sin-version"))
     generados: list[Path] = []
 
     for artifact in data["artifacts"]:
-        requeridos = {"filename", "change_type", "title", "summary"}
+        requeridos = {"filename", "template", "change_type", "title", "summary"}
         faltantes = requeridos.difference(artifact)
         if faltantes:
             faltan = ", ".join(sorted(faltantes))
             raise ValueError(f"Artifact incompleto, faltan campos: {faltan}")
 
+        template_path = repo_root / artifact["template"]
+        if not template_path.exists():
+            raise FileNotFoundError(f"Template no encontrado: {template_path}")
+
         destino = output_dir / artifact["filename"]
-        contenido = _renderizar_markdown(artifact, spec_version=spec_version)
-        destino.write_text(contenido, encoding="utf-8")
+        shutil.copy2(template_path, destino)
         generados.append(destino)
 
     if not dry_run and generados:
@@ -112,7 +90,7 @@ def generar_artefactos(spec_path: Path, dry_run: bool) -> list[Path]:
 
 def parse_args(argv: list[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Genera y stagea archivos a partir de un spec JSON para el reto 1."
+        description="Genera archivos staged desde spec JSON para el reto 1."
     )
     parser.add_argument(
         "--spec",
@@ -132,17 +110,18 @@ def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv or sys.argv[1:])
     try:
         generados = generar_artefactos(spec_path=args.spec.resolve(), dry_run=args.dry_run)
-    except Exception as exc:  # pragma: no cover - salida CLI
+    except Exception as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 1
 
-    print("Artefactos generados:")
+    print("Archivos generados:")
     for path in generados:
         print(f"- {path}")
     if args.dry_run:
         print("Dry run activo: no se agregaron archivos al stage area.")
     else:
         print("Listo: archivos agregados al stage area con git add.")
+        print("Usa 'git diff --staged' para analizar los cambios con tu skill.")
     return 0
 
 

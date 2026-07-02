@@ -24,12 +24,12 @@ Completa la columna **Skill objetivo** durante el taller.
 
 | Reto | Carpeta | Qué debe lograr la skill | Skill objetivo (completar) |
 | --- | --- | --- | --- |
-| 1 | `reto-1-commits/` | Detectar cambios no relacionados en el working tree y advertir que no corresponde un único commit genérico | |
-| 2 | `reto-2-nombres/` | Inferir estilo de nombres original y normalizar nomenclatura de forma consistente | |
-| 3 | `reto-3-mockdata/` | Generar mock data JSON relacional válida (Usuario → Pedidos), con correos válidos y fechas coherentes | |
-| 4 | `reto-4-docstring/` | Crear docstrings correctos según firma real, sin inventar secciones Args/Returns cuando no aplican | |
-| 5 | `reto-5-readme/` | Convertir notas desordenadas en README estructurado según tipo de proyecto elegido | |
-| 6 | `reto-6-entorno/` | Generar `requirements.txt` correcto distinguiendo stdlib/externas y resolviendo import ≠ paquete | |
+| 1 | `reto-1-commits/` | Analizar cambios staged generados por spec y proponer commits Conventional Commits separados; advertir si se mezclan cambios no relacionados | `generador-commits` |
+| 2 | `reto-2-nombres/` | Inferir estilo de nombres original y normalizar nomenclatura de forma consistente | `traductor-nombres` |
+| 3 | `reto-3-mockdata/` | Generar mock data JSON relacional válida (Usuario → Pedidos), con correos válidos y fechas coherentes | `generador-datos-prueba` |
+| 4 | `reto-4-docstring/` | Crear docstrings correctos según firma real, sin inventar secciones Args/Returns cuando no aplican | `generador-docstring-python` |
+| 5 | `reto-5-readme/` | Convertir notas desordenadas en README estructurado según tipo de proyecto elegido | `generador-readme` |
+| 6 | `reto-6-entorno/` | Generar `requirements.txt` correcto distinguiendo stdlib/externas y resolviendo import ≠ paquete | `creador-entorno-python` |
 
 ## Estructura esperada
 
@@ -50,9 +50,9 @@ reto-6-entorno/
 3. Evalúa la salida contra los casos borde.
 4. Refina instrucciones hasta lograr comportamiento robusto y específico.
 
-## Extra para el reto 1: flujo spec-driven invocable
+## Reto 1: flujo spec-driven (obligatorio antes de practicar)
 
-Si quieres preparar rapidamente artefactos de entrenamiento en el stage area, ejecuta:
+Antes de usar la skill `generador-commits`, ejecuta:
 
 ```bash
 python3 reto-1-commits/generar_stage_area.py
@@ -61,5 +61,6 @@ python3 reto-1-commits/generar_stage_area.py
 Este comando:
 
 1. Lee el spec `reto-1-commits/spec_stage_area.json`.
-2. Genera archivos en `reto-1-commits/staged/`.
+2. Copia plantillas desde `reto-1-commits/templates/` a `reto-1-commits/staged/`.
 3. Deja esos archivos en staged con `git add`, sin confirmar commit.
+4. Genera 5 cambios independientes (feat, fix, docs, refactor, chore) para analizar.

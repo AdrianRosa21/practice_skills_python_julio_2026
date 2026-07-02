@@ -1,33 +1,42 @@
 {
-  "version": "1.0",
-  "description": "Spec-driven setup para crear artefactos staged del reto de commits",
+  "version": "2.0",
+  "description": "Spec-driven: genera archivos de cambio independientes para el reto de commits",
   "output_dir": "reto-1-commits/staged",
   "artifacts": [
     {
-      "filename": "feat_iva.md",
+      "filename": "feat_calculo_iva.py",
+      "template": "reto-1-commits/templates/feat_calculo_iva.py",
       "change_type": "feat",
-      "title": "Migracion parcial del calculo de IVA por categoria",
-      "summary": "El cambio FEAT extiende la firma de calcular_iva y agrega un esquema de categorias incompleto.",
-      "touched_files": [
-        "reto-1-commits/cambios_mezclados.py"
-      ],
-      "acceptance_checks": [
-        "Reconocer que hay un TODO funcional pendiente para categorias no mapeadas.",
-        "No mezclar este cambio con correcciones de bugs al redactar commits."
-      ]
+      "title": "Agregar calculo de IVA por categoria fiscal",
+      "summary": "Nueva funcionalidad para calcular IVA segun categorias (general, reducida, super-reducida). Implementacion parcial con TODO pendiente."
     },
     {
-      "filename": "fix_division_cero.md",
+      "filename": "fix_validacion_entrada.py",
+      "template": "reto-1-commits/templates/fix_validacion_entrada.py",
       "change_type": "fix",
-      "title": "Prevencion de division por cero al prorratear cuentas",
-      "summary": "El cambio FIX controla cantidad_personas == 0 para evitar ZeroDivisionError.",
-      "touched_files": [
-        "reto-1-commits/cambios_mezclados.py"
-      ],
-      "acceptance_checks": [
-        "Confirmar que el bug fix es independiente del feature de IVA.",
-        "Sugerir commit separado para este cambio correctivo."
-      ]
+      "title": "Corregir division por cero al prorratear montos",
+      "summary": "Bug fix que evita ZeroDivisionError cuando cantidad_personas es cero."
+    },
+    {
+      "filename": "docs_guia_api.md",
+      "template": "reto-1-commits/templates/docs_guia_api.md",
+      "change_type": "docs",
+      "title": "Documentar endpoints de la API de facturacion",
+      "summary": "Guia de uso de endpoints REST sin cambios de codigo."
+    },
+    {
+      "filename": "refactor_utilidades.py",
+      "template": "reto-1-commits/templates/refactor_utilidades.py",
+      "change_type": "refactor",
+      "title": "Reorganizar funciones auxiliares sin cambiar comportamiento",
+      "summary": "Reordenamiento interno de helpers; misma logica observable."
+    },
+    {
+      "filename": "chore_config_editor.txt",
+      "template": "reto-1-commits/templates/chore_config_editor.txt",
+      "change_type": "chore",
+      "title": "Agregar configuracion de editor para el equipo",
+      "summary": "Archivo de mantenimiento sin impacto funcional en runtime."
     }
   ]
 }

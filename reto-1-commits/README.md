@@ -1,28 +1,48 @@
-# Reto 1 - Commits mezclados
+# Reto 1 — generador-commits
 
-Este reto incluye dos senales mezcladas en el mismo archivo:
+Este reto usa un flujo **spec-driven**: un spec JSON define varios cambios
+independientes y un script los genera en el **stage area** de git.
 
-- un cambio de tipo `feat` (IVA por categoria, incompleto),
-- un cambio de tipo `fix` (division por cero corregida).
-
-La skill del alumno debe detectar que no corresponde un solo commit generico.
-
-## Modo spec-driven (invocable)
-
-Para generar artefactos auxiliares y dejarlos en el **stage area** automaticamente:
+## Paso 1: generar los archivos de ejercicio
 
 ```bash
 python3 reto-1-commits/generar_stage_area.py
 ```
 
-Esto lee `spec_stage_area.json`, crea archivos en `reto-1-commits/staged/` y ejecuta `git add` solo para esos artefactos.
+Esto crea 5 archivos en `reto-1-commits/staged/` (uno por tipo de cambio)
+y los deja en staged con `git add`:
 
-### Dry run
+| Archivo generado | Tipo Conventional Commit |
+| --- | --- |
+| `feat_calculo_iva.py` | `feat` |
+| `fix_validacion_entrada.py` | `fix` |
+| `docs_guia_api.md` | `docs` |
+| `refactor_utilidades.py` | `refactor` |
+| `chore_config_editor.txt` | `chore` |
+
+## Paso 2: analizar con tu skill
+
+Tu skill **`generador-commits`** debe leer los cambios staged:
+
+```bash
+git diff --staged
+git status
+```
+
+Y proponer mensajes de commit separados, **advertiendo** si alguien intenta
+un unico commit generico para todos los cambios.
+
+## Dry run
 
 ```bash
 python3 reto-1-commits/generar_stage_area.py --dry-run
 ```
 
-## Criterio didactico
+Genera archivos sin ejecutar `git add`.
 
-Los archivos generados en staged sirven para practicar prompts de analisis de commits y separacion de cambios por intencion.
+## Archivos del reto (no modificar)
+
+- `spec_stage_area.json` — definicion spec-driven de los cambios
+- `templates/` — plantillas fuente de cada cambio
+- `generar_stage_area.py` — script invocable
+- `EJERCICIO.md` — enunciado completo del ejercicio
