@@ -1,0 +1,22 @@
+Notas sueltas del taller (sin ordenar):
+
+- Proyecto A (API REST con FastAPI)
+  * Tiene endpoints de usuarios, auth y pedidos
+  * Hay que decidir si usar PostgreSQL o SQLite para demo
+  * Ideal tener ejemplos de requests y responses
+  * Falta explicar cómo correr uvicorn y variables de entorno
+  * Quizá agregar sección de arquitectura y decisiones técnicas
+
+- Proyecto B (librería de procesamiento de imágenes)
+  * Funciones: resize, convertir a escala de grises, comprimir, watermark
+  * No está claro si será paquete instalable o script simple
+  * Quedó pendiente poner benchmark básico
+  * Sería útil una tabla de formatos soportados
+  * Tal vez un changelog si se publica
+
+- Proyecto C (app de escritorio con Tkinter)
+  * Aplicación de inventario con formulario y tabla
+  * Debe abrir en Windows sin pasos raros
+  * Necesita capturas de pantalla en README
+  * Faltan notas de empaquetado (pyinstaller?)
+  * Hay ideas de features futuras mezcladas con requisitos actuales
