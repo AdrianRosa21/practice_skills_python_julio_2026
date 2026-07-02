@@ -1,0 +1,33 @@
+{
+  "version": "1.0",
+  "description": "Spec-driven setup para crear artefactos staged del reto de commits",
+  "output_dir": "reto-1-commits/staged",
+  "artifacts": [
+    {
+      "filename": "feat_iva.md",
+      "change_type": "feat",
+      "title": "Migracion parcial del calculo de IVA por categoria",
+      "summary": "El cambio FEAT extiende la firma de calcular_iva y agrega un esquema de categorias incompleto.",
+      "touched_files": [
+        "reto-1-commits/cambios_mezclados.py"
+      ],
+      "acceptance_checks": [
+        "Reconocer que hay un TODO funcional pendiente para categorias no mapeadas.",
+        "No mezclar este cambio con correcciones de bugs al redactar commits."
+      ]
+    },
+    {
+      "filename": "fix_division_cero.md",
+      "change_type": "fix",
+      "title": "Prevencion de division por cero al prorratear cuentas",
+      "summary": "El cambio FIX controla cantidad_personas == 0 para evitar ZeroDivisionError.",
+      "touched_files": [
+        "reto-1-commits/cambios_mezclados.py"
+      ],
+      "acceptance_checks": [
+        "Confirmar que el bug fix es independiente del feature de IVA.",
+        "Sugerir commit separado para este cambio correctivo."
+      ]
+    }
+  ]
+}

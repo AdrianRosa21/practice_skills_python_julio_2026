@@ -49,3 +49,17 @@ reto-6-entorno/
 2. Diseña prompts iterativos para tu skill.
 3. Evalúa la salida contra los casos borde.
 4. Refina instrucciones hasta lograr comportamiento robusto y específico.
+
+## Extra para el reto 1: flujo spec-driven invocable
+
+Si quieres preparar rapidamente artefactos de entrenamiento en el stage area, ejecuta:
+
+```bash
+python3 reto-1-commits/generar_stage_area.py
+```
+
+Este comando:
+
+1. Lee el spec `reto-1-commits/spec_stage_area.json`.
+2. Genera archivos en `reto-1-commits/staged/`.
+3. Deja esos archivos en staged con `git add`, sin confirmar commit.
