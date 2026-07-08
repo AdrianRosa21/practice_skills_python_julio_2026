@@ -108,3 +108,16 @@ Si el usuario no indica el reto:
 3. Aplica **solo** las reglas de ese ejercicio, sin arrastrar convenciones de otros retos.
 
 Si hay ambigüedad, pregunta antes de modificar archivos.
+
+---
+# Skill: creador-entorno-python
+
+**Propósito:** Detectar dependencias reales de un script Python, resolver mapeos no triviales (ej. `cv2`→`opencv-python`, `yaml`→`PyYAML`, `PIL`→`Pillow`, `dotenv`→`python-dotenv`) y generar un `requirements.txt` y los comandos para crear/activar un `venv`.
+
+**Activación automática:** El agente invoca esta skill automáticamente cuando el usuario escribe en lenguaje natural frases como: "preparar entorno", "generar dependencias", "crear requirements", "crear venv", "instalar dependencias". No se requiere `/` ni `@`.
+
+**Reglas de uso dentro del sandbox:**
+- Seguir la regla principal: no modificar archivos de entrada fija dentro de `reto-N/` salvo petición explícita del usuario. La skill debe leer y analizar el script (por ejemplo `reto-6-entorno/script_complejo.py`) pero generar su salida en la raíz del workspace o en `.github/skills/` según el flujo del ejercicio.
+- Excluir por completo módulos de la stdlib del `requirements.txt`.
+- Evitar confirmaciones interactivas: la skill generará `requirements.txt` y mostrará/ejecutará los comandos de creación/activación del `venv` e instalación de dependencias tal como indica el ejercicio, dejando al usuario el control final sobre ejecuciones en su entorno.
+
