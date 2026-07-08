@@ -19,7 +19,7 @@ Flujo principal
 3. Filtrado stdlib: excluir módulos pertenecientes a la librería estándar de Python (uso de lista blanca/stdlib lookup).
 4. Resolución de mapeos: transformar nombres de imports a paquetes PyPI cuando difieren. Ejemplos: `cv2` → `opencv-python`, `yaml` → `PyYAML`, `PIL`/`from PIL import Image` → `Pillow`, `dotenv`/`from dotenv import load_dotenv` → `python-dotenv`.
 5. Salida: generar y guardar el archivo `requirements.txt` **dentro del mismo directorio donde se encuentra el script analizado**. Mostrar lista limpia de dependencias y un mapeo explícito de imports↔paquetes.
-6. Entorno reproducible: mostrar y ejecutar (sin pedir confirmación adicional) los comandos para navegar a la carpeta del script, crear/activar el `venv` e instalar las dependencias desde el `requirements.txt` recién creado.
+6. Entorno reproducible: preparar los comandos para navegar a la carpeta del script, crear/activar el `venv` e instalar las dependencias desde el `requirements.txt` recién creado. Antes de ejecutar estas acciones, la skill preguntará al usuario y sólo procederá si el usuario confirma.
 
 Casos borde y reglas
 -
@@ -33,7 +33,7 @@ Entregables
 - Resumen en chat con:
   - Lista de dependencias externas (una por línea).
   - Mapeo imports→paquetes para los casos no triviales.
-  - Comandos a ejecutar (incluyendo el cambio de directorio) para crear/activar `venv` e instalar dependencias.
+  - Comandos a ejecutar (incluyendo el cambio de directorio) para crear/activar `venv` e instalar dependencias — la skill preguntará antes de ejecutar.
 
 Comandos sugeridos
 -
@@ -73,6 +73,6 @@ pip install -r requirements.txt
 ## Notas de seguridad y alcance
 
 * No modificar archivos de entrada fija del reto sin petición explícita del usuario (seguir reglas del sandbox).
-* La skill puede sugerir ejecutar comandos; por defecto ejecutará los comandos de cambio de directorio, creación/instalación y generará `requirements.txt` sin pedir confirmación, según el flujo acordado por el taller.
+* La skill generará automáticamente el `requirements.txt` en la carpeta del script. Para acciones que ejecutan cambios en el sistema (por ejemplo creación/activación del `venv` e instalación de paquetes), la skill preguntará al usuario antes de ejecutar y sólo procederá con su confirmación.
 
 ```

@@ -117,7 +117,7 @@ Si hay ambigüedad, pregunta antes de modificar archivos.
 **Activación automática:** El agente invoca esta skill automáticamente cuando el usuario escribe en lenguaje natural frases como: "preparar entorno", "generar dependencias", "crear requirements", "crear venv", "instalar dependencias". No se requiere `/` ni `@`.
 
 **Reglas de uso dentro del sandbox:**
-- Seguir la regla principal: no modificar archivos de entrada fija dentro de `reto-N/` salvo petición explícita del usuario. La skill debe leer y analizar el script (por ejemplo `reto-6-entorno/script_complejo.py`) pero generar su salida en la raíz del workspace o en `.github/skills/` según el flujo del ejercicio.
+- Seguir la regla principal: no modificar archivos de entrada fija dentro de `reto-N/` salvo petición explícita del usuario. La skill debe leer y analizar el script (por ejemplo `reto-6-entorno/script_complejo.py`) pero generar su salida (por ejemplo `requirements.txt`) **en la misma carpeta donde está el script analizado**, y realizar las acciones de creación/instalación en esa misma ruta cuando así se confirme.
 - Excluir por completo módulos de la stdlib del `requirements.txt`.
-- Evitar confirmaciones interactivas: la skill generará `requirements.txt` y mostrará/ejecutará los comandos de creación/activación del `venv` e instalación de dependencias tal como indica el ejercicio, dejando al usuario el control final sobre ejecuciones en su entorno.
+- Confirmación antes de ejecutar: la skill generará automáticamente `requirements.txt` en la carpeta del script y mostrará los comandos para crear/activar el `venv` e instalar dependencias; **preguntará al usuario antes** de ejecutar cualquier comando que modifique el entorno (creación del `venv`, instalación de paquetes).
 
